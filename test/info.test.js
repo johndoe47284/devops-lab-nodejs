@@ -22,3 +22,16 @@ describe('GET /info', () => {
     expect(res.body.uptime).toBeGreaterThanOrEqual(0)
   })
 })
+
+describe('GET /info (payload contract)', () => {
+  it('returns exactly name, version, node and uptime', async () => {
+    const res = await request(app).get('/info')
+    expect(Object.keys(res.body).sort()).toEqual(['name', 'node', 'uptime', 'version'])
+    expect(res.body.node).toBe(process.version)
+  })
+
+  it('is not cacheable', async () => {
+    const res = await request(app).get('/info')
+    expect(res.headers['cache-control']).toBe('no-store')
+  })
+})

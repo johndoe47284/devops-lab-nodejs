@@ -11,6 +11,12 @@ describe('getPackageInfo', () => {
     expect(info).toHaveProperty('name')
     expect(info).toHaveProperty('version')
   })
+
+  it('reads the real values from package.json', () => {
+    const info = getPackageInfo()
+    expect(info.name).toBe('devops-lab-student-project')
+    expect(info.version).toMatch(/^\d+\.\d+\.\d+/)
+  })
 })
 
 describe('getRuntimeInfo', () => {
