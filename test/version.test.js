@@ -5,6 +5,7 @@
 import request from 'supertest'
 import app from '../src/app.js'
 import { describe, it, expect } from 'vitest'
+import { getPackageInfo } from '../src/utils/appInfo.js'
 
 describe('GET /version', () => {
   it('returns package version as a non-empty string', async () => {
@@ -17,5 +18,11 @@ describe('GET /version', () => {
   it('responds with JSON content-type', async () => {
     const res = await request(app).get('/version')
     expect(res.headers['content-type']).toMatch(/application\/json/)
+  })
+
+  it('matches the version declared in package.json (x.y.z)', async () => {
+    const res = await request(app).get('/version')
+    expect(res.body).toEqual({ version: getPackageInfo().version })
+    expect(res.body.version).toMatch(/^\d+\.\d+\.\d+/)
   })
 })
