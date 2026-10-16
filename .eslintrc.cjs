@@ -9,7 +9,7 @@ module.exports = {
     'standard'
   ],
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 2022, // top-level await in src/app.js
     sourceType: 'module',
   },
   rules: {
