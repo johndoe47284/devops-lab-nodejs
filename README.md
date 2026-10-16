@@ -1,5 +1,7 @@
 # DevOps Lab – Student Project (Node.js + Jira/GitHub + CI/CD)
 
+![CI](https://github.com/johndoe47284/devops-lab-nodejs/actions/workflows/ci.yml/badge.svg)
+
 This repository is a **teaching template** for a 4-student DevOps mini-project.
 It demonstrates a realistic workflow: **PLAN (Jira) → CODE (Git/VS Code) → BUILD/TEST (GitHub Actions) → REVIEW (PRs) → DEPLOY (optional)**.
 
@@ -41,7 +43,8 @@ Routes are **auto-mounted** from `src/routes/auto/*.route.js` so each student ca
 - **Integration tests** (Supertest) target HTTP endpoints in `test/*.test.js`.
 - **Unit tests** target internal logic in `test/unit/*.test.js`.
 
-Coverage thresholds (Lines/Functions/Statements ≥ 80%, Branches ≥ 70%) are set in `package.json`.  
+Coverage thresholds (Lines/Functions/Statements ≥ 80%, Branches ≥ 70%) are set in `vitest.config.js`
+(Vitest ignores a `"vitest"` key in `package.json`, so they must live in the config file to be enforced).  
 If coverage drops below thresholds, CI fails and blocks the merge (quality gate).
 
 ---
@@ -92,7 +95,7 @@ test/
 
 - `npm run dev` – start dev server with nodemon
 - `npm test` – run all tests (Vitest)
-- `npm test -- --coverage` – with coverage
+- `npm test -- --coverage` (or `npm run coverage`) – with coverage
 - `npm run lint` – ESLint check
 
 Enjoy the lab!

@@ -11,7 +11,8 @@
     "dev": "nodemon src/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
@@ -31,18 +32,5 @@
     "nodemon": "^3.1.11",
     "supertest": "^7.0.0",
     "vitest": "^4.0.13"
-  },
-  "vitest": {
-    "coverage": {
-      "provider": "v8",
-      "all": true,
-      "include": [
-        "src/**/*.js"
-      ],
-      "lines": 80,
-      "functions": 80,
-      "branches": 70,
-      "statements": 80
-    }
   }
 }
