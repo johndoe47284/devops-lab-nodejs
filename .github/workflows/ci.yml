@@ -5,21 +5,27 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: {}
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Node 20 is the version from the lab handout; 22 is the current LTS.
+        node-version: [20, 22]
 
     steps:
       # 1) Checkout source
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # 2) Setup Node with caching for npm
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
 
       # 3) Install dependencies
@@ -36,8 +42,9 @@ jobs:
 
       # 6) Upload coverage folder as an artifact (viewable in Actions UI)
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
-          name: coverage-report
+          name: coverage-report-node${{ matrix.node-version }}
           path: coverage
+          if-no-files-found: warn
