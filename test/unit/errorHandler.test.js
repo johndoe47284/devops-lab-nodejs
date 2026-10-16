@@ -2,7 +2,7 @@
  * Unit tests for src/utils/errorHandler.js.
  * We stub a minimal `res` object to capture status and body.
  */
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { errorHandler } from '../../src/utils/errorHandler.js'
 
 function makeRes () {
@@ -27,5 +27,13 @@ describe('errorHandler', () => {
     errorHandler({ status: 418, message: 'teapot' }, {}, res, () => {})
     expect(res.statusCode).toBe(418)
     expect(res.body).toEqual({ error: true, message: 'teapot' })
+  })
+  it('delegates to next() when headers are already sent', () => {
+    const res = { ...makeRes(), headersSent: true }
+    const next = vi.fn()
+    const err = new Error('late')
+    errorHandler(err, {}, res, next)
+    expect(next).toHaveBeenCalledWith(err)
+    expect(res.statusCode).toBe(0)
   })
 })
