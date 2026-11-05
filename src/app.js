@@ -13,6 +13,7 @@ import { errorHandler } from './utils/errorHandler.js'
 import projectsRouter from './routes/projects.route.js'
 import projectTasksRouter from './routes/projectTasks.route.js'
 import tasksRouter from './routes/tasks.route.js'
+import commentsRouter from './routes/comments.route.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -44,6 +45,7 @@ if (fs.existsSync(autoDir)) {
 app.use('/api/projects', projectsRouter)
 app.use('/api/projects/:projectId/tasks', projectTasksRouter)
 app.use('/api/tasks', tasksRouter)
+app.use('/api/tasks/:taskId/comments', commentsRouter)
 
 // Global error middleware last
 app.use(errorHandler)
