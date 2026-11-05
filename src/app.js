@@ -14,6 +14,7 @@ import projectsRouter from './routes/projects.route.js'
 import projectTasksRouter from './routes/projectTasks.route.js'
 import tasksRouter from './routes/tasks.route.js'
 import commentsRouter from './routes/comments.route.js'
+import dashboardRouter from './routes/dashboard.route.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -46,6 +47,7 @@ app.use('/api/projects', projectsRouter)
 app.use('/api/projects/:projectId/tasks', projectTasksRouter)
 app.use('/api/tasks', tasksRouter)
 app.use('/api/tasks/:taskId/comments', commentsRouter)
+app.use('/api/dashboard', dashboardRouter)
 
 // Global error middleware last
 app.use(errorHandler)
