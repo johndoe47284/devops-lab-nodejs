@@ -10,11 +10,15 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { errorHandler } from './utils/errorHandler.js'
+import projectsRouter from './routes/projects.route.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
+
+// Parse JSON bodies before handling requests (needed by every POST/PATCH route)
+app.use(express.json())
 
 // Simple root + health endpoints
 app.get('/', (_req, res) => res.json({ ok: true, message: 'Hello from CI/CD demo 👋' }))
@@ -33,6 +37,9 @@ if (fs.existsSync(autoDir)) {
     if (router) app.use('/', router)
   }
 }
+
+// TaskFlow REST API (lab 5): each router is registered under its /api prefix
+app.use('/api/projects', projectsRouter)
 
 // Global error middleware last
 app.use(errorHandler)
