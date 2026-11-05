@@ -12,6 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { errorHandler } from './utils/errorHandler.js'
 import projectsRouter from './routes/projects.route.js'
 import projectTasksRouter from './routes/projectTasks.route.js'
+import tasksRouter from './routes/tasks.route.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -42,6 +43,7 @@ if (fs.existsSync(autoDir)) {
 // TaskFlow REST API (lab 5): each router is registered under its /api prefix
 app.use('/api/projects', projectsRouter)
 app.use('/api/projects/:projectId/tasks', projectTasksRouter)
+app.use('/api/tasks', tasksRouter)
 
 // Global error middleware last
 app.use(errorHandler)
