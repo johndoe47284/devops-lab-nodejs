@@ -36,7 +36,7 @@ Open `coverage/index.html` for a visual coverage report (locally).
 
 Routes are **auto-mounted** from `src/routes/auto/*.route.js` so each student can add a file without touching `src/app.js` (fewer merge conflicts).
 
-### TaskFlow REST API (lab 5)
+### TaskFlow REST API (labs 5 and 6)
 
 Routers in `src/routes/*.route.js`, registered in `src/app.js` under their `/api` prefix.
 Data is kept in memory (`src/data/store.js`) until the database layer is added.
@@ -54,6 +54,21 @@ Data is kept in memory (`src/data/store.js`) until the database layer is added.
 | DEVOPS-14 | `GET /api/tasks/:taskId/comments` | Comments of a task, oldest first |
 | DEVOPS-14 | `POST /api/tasks/:taskId/comments` | Add `{ author, content }` |
 | DEVOPS-15 | `GET /api/dashboard?projectId=` | Task counts by status, overdue tasks, completion rate |
+| DEVOPS-18 | `PUT /api/projects/:id` | Replace `{ name, description? }` → 200, 409 if the name is taken |
+| DEVOPS-18 | `DELETE /api/projects/:id` | Delete a project, its tasks and their comments → 204 |
+| DEVOPS-19 | `GET /api/tasks` | List the tasks of every project |
+| DEVOPS-19 | `PUT /api/tasks/:id` | Replace `{ title, description?, status?, assignee?, dueDate? }` (omitted fields get their default) |
+| DEVOPS-20 | `GET /api/tasks/:taskId/comments/:id` | One comment of the task |
+| DEVOPS-20 | `PUT /api/tasks/:taskId/comments/:id` | Replace `{ author, content }`, sets `updatedAt` |
+| DEVOPS-20 | `DELETE /api/tasks/:taskId/comments/:id` | Delete a comment → 204 |
+
+### Full CRUD per entity (lab 6)
+
+| Entity | List all | Retrieve by ID | Create | Update | Delete |
+|---|---|---|---|---|---|
+| Project | `GET /api/projects` | `GET /api/projects/:id` | `POST /api/projects` | `PUT /api/projects/:id` | `DELETE /api/projects/:id` |
+| Task | `GET /api/tasks` (all) · `GET /api/projects/:projectId/tasks` | `GET /api/tasks/:id` | `POST /api/projects/:projectId/tasks` | `PUT /api/tasks/:id` · `PATCH /api/tasks/:id` | `DELETE /api/tasks/:id` |
+| Comment | `GET /api/tasks/:taskId/comments` | `GET /api/tasks/:taskId/comments/:id` | `POST /api/tasks/:taskId/comments` | `PUT /api/tasks/:taskId/comments/:id` | `DELETE /api/tasks/:taskId/comments/:id` |
 
 Errors always use the shape `{ "error": true, "message": "..." }` with 400 (invalid input), 404 (unknown id) or 409 (conflict).
 
